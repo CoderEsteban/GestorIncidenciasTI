@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Registro de incidencias TI"
+﻿<%@ Page Title="Gestor de Incidencias TI"
     Language="C#"
     MasterPageFile="~/Site.Master"
     AutoEventWireup="true"
@@ -11,161 +11,261 @@
 
     <main>
 
-        <h1>Registro de incidencias TI</h1>
+        <h1>Gestor de incidencias TI</h1>
 
         <p>
-            Complete la información de la incidencia.
+            Registre y consulte las incidencias técnicas reportadas durante la sesión.
         </p>
 
-        <!-- Mensajes de validación del lado del cliente -->
-        <div id="mensajeValidacion"
-             class="alert alert-danger"
-             style="display:none;">
-        </div>
+        <asp:UpdatePanel
+            ID="upIncidencias"
+            runat="server"
+            UpdateMode="Conditional">
 
-        <!-- Título -->
-        <div class="mb-3">
-            <label for="txtTitulo" class="form-label">
-                Título de la incidencia
-            </label>
+            <ContentTemplate>
 
-            <asp:TextBox
-                ID="txtTitulo"
-                runat="server"
-                ClientIDMode="Static"
-                CssClass="form-control">
-            </asp:TextBox>
-        </div>
+                <!-- ================================================== -->
+                <!-- FUNCIONALIDAD 1: REGISTRO DE INCIDENCIAS           -->
+                <!-- ================================================== -->
 
-        <!-- Categoría -->
-        <div class="mb-3">
-            <label for="ddlCategoria" class="form-label">
-                Categoría
-            </label>
+                <section class="mb-5">
 
-            <asp:DropDownList
-                ID="ddlCategoria"
-                runat="server"
-                ClientIDMode="Static"
-                CssClass="form-select">
+                    <h2>Registrar incidencia</h2>
 
-                <asp:ListItem
-                    Text="Seleccione una categoría"
-                    Value="" />
+                    <p>
+                        Complete la información de la incidencia.
+                    </p>
 
-                <asp:ListItem
-                    Text="Hardware"
-                    Value="Hardware" />
+                    <!-- Mensajes de validación del lado del cliente -->
+                    <div id="mensajeValidacion"
+                         class="alert alert-danger"
+                         style="display:none;">
+                    </div>
 
-                <asp:ListItem
-                    Text="Software"
-                    Value="Software" />
+                    <!-- Título -->
+                    <div class="mb-3">
 
-                <asp:ListItem
-                    Text="Red"
-                    Value="Red" />
+                        <label for="txtTitulo"
+                               class="form-label">
+                            Título de la incidencia
+                        </label>
 
-                <asp:ListItem
-                    Text="Servicio"
-                    Value="Servicio" />
+                        <asp:TextBox
+                            ID="txtTitulo"
+                            runat="server"
+                            ClientIDMode="Static"
+                            CssClass="form-control">
+                        </asp:TextBox>
 
-            </asp:DropDownList>
-        </div>
+                    </div>
 
-        <!-- Impacto -->
-        <div class="mb-3">
-            <label for="ddlImpacto" class="form-label">
-                Impacto
-            </label>
+                    <!-- Categoría -->
+                    <div class="mb-3">
 
-            <asp:DropDownList
-                ID="ddlImpacto"
-                runat="server"
-                ClientIDMode="Static"
-                CssClass="form-select">
+                        <label for="ddlCategoria"
+                               class="form-label">
+                            Categoría
+                        </label>
 
-                <asp:ListItem
-                    Text="Seleccione el impacto"
-                    Value="" />
+                        <asp:DropDownList
+                            ID="ddlCategoria"
+                            runat="server"
+                            ClientIDMode="Static"
+                            CssClass="form-select">
 
-                <asp:ListItem
-                    Text="Bajo"
-                    Value="Bajo" />
+                            <asp:ListItem
+                                Text="Seleccione una categoría"
+                                Value="" />
 
-                <asp:ListItem
-                    Text="Medio"
-                    Value="Medio" />
+                            <asp:ListItem
+                                Text="Hardware"
+                                Value="Hardware" />
 
-                <asp:ListItem
-                    Text="Alto"
-                    Value="Alto" />
+                            <asp:ListItem
+                                Text="Software"
+                                Value="Software" />
 
-            </asp:DropDownList>
-        </div>
+                            <asp:ListItem
+                                Text="Red"
+                                Value="Red" />
 
-        <!-- Urgencia -->
-        <div class="mb-3">
-            <label for="ddlUrgencia" class="form-label">
-                Urgencia
-            </label>
+                            <asp:ListItem
+                                Text="Servicio"
+                                Value="Servicio" />
 
-            <asp:DropDownList
-                ID="ddlUrgencia"
-                runat="server"
-                ClientIDMode="Static"
-                CssClass="form-select">
+                        </asp:DropDownList>
 
-                <asp:ListItem
-                    Text="Seleccione la urgencia"
-                    Value="" />
+                    </div>
 
-                <asp:ListItem
-                    Text="Baja"
-                    Value="Baja" />
+                    <!-- Impacto -->
+                    <div class="mb-3">
 
-                <asp:ListItem
-                    Text="Media"
-                    Value="Media" />
+                        <label for="ddlImpacto"
+                               class="form-label">
+                            Impacto
+                        </label>
 
-                <asp:ListItem
-                    Text="Alta"
-                    Value="Alta" />
+                        <asp:DropDownList
+                            ID="ddlImpacto"
+                            runat="server"
+                            ClientIDMode="Static"
+                            CssClass="form-select">
 
-            </asp:DropDownList>
-        </div>
+                            <asp:ListItem
+                                Text="Seleccione el impacto"
+                                Value="" />
 
-        <!-- Descripción -->
-        <div class="mb-3">
-            <label for="txtDescripcion" class="form-label">
-                Descripción
-            </label>
+                            <asp:ListItem
+                                Text="Bajo"
+                                Value="Bajo" />
 
-            <asp:TextBox
-                ID="txtDescripcion"
-                runat="server"
-                ClientIDMode="Static"
-                TextMode="MultiLine"
-                Rows="4"
-                CssClass="form-control">
-            </asp:TextBox>
-        </div>
+                            <asp:ListItem
+                                Text="Medio"
+                                Value="Medio" />
 
-        <!-- Botón de registro -->
-        <div class="mb-3">
-            <asp:Button
-                ID="btnRegistrar"
-                runat="server"
-                Text="Registrar incidencia"
-                CssClass="btn btn-primary"
-                OnClientClick="return validarIncidencia();"
-                OnClick="btnRegistrar_Click" />
-        </div>
+                            <asp:ListItem
+                                Text="Alto"
+                                Value="Alto" />
 
-        <!-- Mensaje generado desde C# -->
-        <asp:Label
-            ID="lblMensaje"
-            runat="server">
-        </asp:Label>
+                        </asp:DropDownList>
+
+                    </div>
+
+                    <!-- Urgencia -->
+                    <div class="mb-3">
+
+                        <label for="ddlUrgencia"
+                               class="form-label">
+                            Urgencia
+                        </label>
+
+                        <asp:DropDownList
+                            ID="ddlUrgencia"
+                            runat="server"
+                            ClientIDMode="Static"
+                            CssClass="form-select">
+
+                            <asp:ListItem
+                                Text="Seleccione la urgencia"
+                                Value="" />
+
+                            <asp:ListItem
+                                Text="Baja"
+                                Value="Baja" />
+
+                            <asp:ListItem
+                                Text="Media"
+                                Value="Media" />
+
+                            <asp:ListItem
+                                Text="Alta"
+                                Value="Alta" />
+
+                        </asp:DropDownList>
+
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="mb-3">
+
+                        <label for="txtDescripcion"
+                               class="form-label">
+                            Descripción
+                        </label>
+
+                        <asp:TextBox
+                            ID="txtDescripcion"
+                            runat="server"
+                            ClientIDMode="Static"
+                            TextMode="MultiLine"
+                            Rows="4"
+                            CssClass="form-control">
+                        </asp:TextBox>
+
+                    </div>
+
+                    <!-- Botón -->
+                    <div class="mb-3">
+
+                        <asp:Button
+                            ID="btnRegistrar"
+                            runat="server"
+                            Text="Registrar incidencia"
+                            CssClass="btn btn-primary"
+                            OnClientClick="return validarIncidencia();"
+                            OnClick="btnRegistrar_Click" />
+
+                    </div>
+
+                    <!-- Mensaje generado desde C# -->
+                    <asp:Label
+                        ID="lblMensaje"
+                        runat="server">
+                    </asp:Label>
+
+                </section>
+
+
+                <!-- ================================================== -->
+                <!-- FUNCIONALIDAD 2: CONSULTA DE INCIDENCIAS           -->
+                <!-- ================================================== -->
+
+                <section>
+
+                    <h2>Incidencias registradas</h2>
+
+                    <p>
+                        Se muestran las incidencias registradas durante la sesión actual.
+                    </p>
+
+                    <div class="table-responsive">
+
+                        <asp:GridView
+                            ID="gvIncidencias"
+                            runat="server"
+                            AutoGenerateColumns="False"
+                            CssClass="table table-striped table-bordered"
+                            GridLines="None"
+                            EmptyDataText="No hay incidencias registradas en esta sesión.">
+
+                            <Columns>
+
+                                <asp:BoundField
+                                    DataField="Id"
+                                    HeaderText="ID" />
+
+                                <asp:BoundField
+                                    DataField="Titulo"
+                                    HeaderText="Título" />
+
+                                <asp:BoundField
+                                    DataField="Categoria"
+                                    HeaderText="Categoría" />
+
+                                <asp:BoundField
+                                    DataField="Impacto"
+                                    HeaderText="Impacto" />
+
+                                <asp:BoundField
+                                    DataField="Urgencia"
+                                    HeaderText="Urgencia" />
+
+                                <asp:BoundField
+                                    DataField="FechaRegistro"
+                                    HeaderText="Fecha"
+                                    DataFormatString="{0:dd/MM/yyyy HH:mm}" />
+
+                            </Columns>
+
+                        </asp:GridView>
+
+                    </div>
+
+                </section>
+
+            </ContentTemplate>
+
+        </asp:UpdatePanel>
 
     </main>
 

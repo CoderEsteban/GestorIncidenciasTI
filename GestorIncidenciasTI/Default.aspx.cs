@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using GestorIncidenciasTI.Models;
 
 namespace GestorIncidenciasTI
@@ -12,21 +9,31 @@ namespace GestorIncidenciasTI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // La tabla se carga al abrir la página.
+            if (!IsPostBack)
+            {
+                CargarIncidencias();
+            }
         }
 
         protected void btnRegistrar_Click(object sender, EventArgs e)
         {
-            List<Incidencia> incidencias;
-
-            if (Session["Incidencias"] == null)
+            // Validación adicional en el servidor.
+            if (string.IsNullOrWhiteSpace(txtTitulo.Text) ||
+                string.IsNullOrWhiteSpace(ddlCategoria.SelectedValue) ||
+                string.IsNullOrWhiteSpace(ddlImpacto.SelectedValue) ||
+                string.IsNullOrWhiteSpace(ddlUrgencia.SelectedValue) ||
+                string.IsNullOrWhiteSpace(txtDescripcion.Text))
             {
-                incidencias = new List<Incidencia>();
-            }
-            else
-            {
-                incidencias = (List<Incidencia>)Session["Incidencias"];
+                lblMensaje.Text = "Debe completar todos los campos.";
+                lblMensaje.CssClass = "alert alert-danger d-block";
+                return;
             }
 
+            // Obtener la lista de incidencias de la sesión.
+            List<Incidencia> incidencias = ObtenerIncidencias();
+
+            // Crear la nueva incidencia.
             Incidencia nuevaIncidencia = new Incidencia
             {
                 Id = incidencias.Count + 1,
@@ -38,14 +45,43 @@ namespace GestorIncidenciasTI
                 FechaRegistro = DateTime.Now
             };
 
+            // Agregar la incidencia a la lista.
             incidencias.Add(nuevaIncidencia);
 
+            // Guardar nuevamente la lista en Session.
             Session["Incidencias"] = incidencias;
 
+            // Mostrar mensaje de confirmación.
             lblMensaje.Text = "La incidencia fue registrada correctamente.";
             lblMensaje.CssClass = "alert alert-success d-block";
 
+            // Limpiar formulario.
             LimpiarFormulario();
+
+            // Actualizar la tabla.
+            CargarIncidencias();
+
+            // Actualización parcial del UpdatePanel.
+            upIncidencias.Update();
+        }
+
+        private List<Incidencia> ObtenerIncidencias()
+        {
+            // Si no existe una lista en Session se crea una nueva.
+            if (Session["Incidencias"] == null)
+            {
+                Session["Incidencias"] = new List<Incidencia>();
+            }
+
+            return (List<Incidencia>)Session["Incidencias"];
+        }
+
+        private void CargarIncidencias()
+        {
+            List<Incidencia> incidencias = ObtenerIncidencias();
+
+            gvIncidencias.DataSource = incidencias;
+            gvIncidencias.DataBind();
         }
 
         private void LimpiarFormulario()
