@@ -1,44 +1,175 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="GestorIncidenciasTI._Default" %>
+﻿<%@ Page Title="Registro de incidencias TI"
+    Language="C#"
+    MasterPageFile="~/Site.Master"
+    AutoEventWireup="true"
+    CodeBehind="Default.aspx.cs"
+    Inherits="GestorIncidenciasTI._Default" %>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="BodyContent"
+    ContentPlaceHolderID="MainContent"
+    runat="server">
 
     <main>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="aspnetTitle">ASP.NET</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-            <p><a href="http://www.asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-        </section>
 
-        <div class="row">
-            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
-                <p>
-                    ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-                A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
-                </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
-                <p>
-                    NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
-                </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
-                <p>
-                    You can easily find a web hosting company that offers the right mix of features and price for your applications.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
-                </p>
-            </section>
+        <h1>Registro de incidencias TI</h1>
+
+        <p>
+            Complete la información de la incidencia.
+        </p>
+
+        <!-- Mensajes de validación del lado del cliente -->
+        <div id="mensajeValidacion"
+             class="alert alert-danger"
+             style="display:none;">
         </div>
+
+        <!-- Título -->
+        <div class="mb-3">
+            <label for="txtTitulo" class="form-label">
+                Título de la incidencia
+            </label>
+
+            <asp:TextBox
+                ID="txtTitulo"
+                runat="server"
+                ClientIDMode="Static"
+                CssClass="form-control">
+            </asp:TextBox>
+        </div>
+
+        <!-- Categoría -->
+        <div class="mb-3">
+            <label for="ddlCategoria" class="form-label">
+                Categoría
+            </label>
+
+            <asp:DropDownList
+                ID="ddlCategoria"
+                runat="server"
+                ClientIDMode="Static"
+                CssClass="form-select">
+
+                <asp:ListItem
+                    Text="Seleccione una categoría"
+                    Value="" />
+
+                <asp:ListItem
+                    Text="Hardware"
+                    Value="Hardware" />
+
+                <asp:ListItem
+                    Text="Software"
+                    Value="Software" />
+
+                <asp:ListItem
+                    Text="Red"
+                    Value="Red" />
+
+                <asp:ListItem
+                    Text="Servicio"
+                    Value="Servicio" />
+
+            </asp:DropDownList>
+        </div>
+
+        <!-- Impacto -->
+        <div class="mb-3">
+            <label for="ddlImpacto" class="form-label">
+                Impacto
+            </label>
+
+            <asp:DropDownList
+                ID="ddlImpacto"
+                runat="server"
+                ClientIDMode="Static"
+                CssClass="form-select">
+
+                <asp:ListItem
+                    Text="Seleccione el impacto"
+                    Value="" />
+
+                <asp:ListItem
+                    Text="Bajo"
+                    Value="Bajo" />
+
+                <asp:ListItem
+                    Text="Medio"
+                    Value="Medio" />
+
+                <asp:ListItem
+                    Text="Alto"
+                    Value="Alto" />
+
+            </asp:DropDownList>
+        </div>
+
+        <!-- Urgencia -->
+        <div class="mb-3">
+            <label for="ddlUrgencia" class="form-label">
+                Urgencia
+            </label>
+
+            <asp:DropDownList
+                ID="ddlUrgencia"
+                runat="server"
+                ClientIDMode="Static"
+                CssClass="form-select">
+
+                <asp:ListItem
+                    Text="Seleccione la urgencia"
+                    Value="" />
+
+                <asp:ListItem
+                    Text="Baja"
+                    Value="Baja" />
+
+                <asp:ListItem
+                    Text="Media"
+                    Value="Media" />
+
+                <asp:ListItem
+                    Text="Alta"
+                    Value="Alta" />
+
+            </asp:DropDownList>
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-3">
+            <label for="txtDescripcion" class="form-label">
+                Descripción
+            </label>
+
+            <asp:TextBox
+                ID="txtDescripcion"
+                runat="server"
+                ClientIDMode="Static"
+                TextMode="MultiLine"
+                Rows="4"
+                CssClass="form-control">
+            </asp:TextBox>
+        </div>
+
+        <!-- Botón de registro -->
+        <div class="mb-3">
+            <asp:Button
+                ID="btnRegistrar"
+                runat="server"
+                Text="Registrar incidencia"
+                CssClass="btn btn-primary"
+                OnClientClick="return validarIncidencia();"
+                OnClick="btnRegistrar_Click" />
+        </div>
+
+        <!-- Mensaje generado desde C# -->
+        <asp:Label
+            ID="lblMensaje"
+            runat="server">
+        </asp:Label>
+
     </main>
+
+    <!-- JavaScript propio del módulo -->
+    <script src="Scripts/incidencias.js"></script>
 
 </asp:Content>
